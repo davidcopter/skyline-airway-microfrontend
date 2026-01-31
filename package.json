@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "dev:remotes": "pnpm --filter !@skyline/shell --parallel dev",
+    "dev:all": "pnpm build && (pnpm --filter !@skyline/shell --parallel preview & pnpm --filter @skyline/shell dev)",
     "build": "pnpm -r build",
     "preview": "pnpm -r --parallel preview",
     "start": "pnpm build && pnpm preview",
