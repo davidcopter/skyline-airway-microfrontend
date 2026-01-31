@@ -1,0 +1,15 @@
+<script lang="ts">
+  import { cn } from "@/lib/utils";
+
+  export let className: string | undefined | null = undefined;
+</script>
+
+<th
+	class={cn(
+		"h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+		className
+	)}
+	{...$$restProps}
+>
+	<slot />
+</th>

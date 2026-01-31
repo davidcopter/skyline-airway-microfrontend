@@ -12,6 +12,7 @@
 
     "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@skyline/shared": ["../../packages/shared/src/index.ts"]
     }
   },
