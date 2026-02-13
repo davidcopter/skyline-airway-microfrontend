@@ -21,7 +21,7 @@ const FleetHealthSubsystem: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="bg-white border-b border-gray-100 px-8 py-2 flex items-center space-x-6 overflow-x-auto">
+      <div className="bg-white border-b border-gray-100 px-8 py-2 flex items-center space-x-6 overflow-x-auto sticky top-0 md:top-[64px] z-40">
         {subNavItems.map((item) => (
           <Link
             key={item.path}

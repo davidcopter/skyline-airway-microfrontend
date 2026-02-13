@@ -56,7 +56,7 @@ const AppContent: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-skyline-bg">
       {isAuthenticated && <Header />}
-      <main className="flex-1 relative">
+      <main className="flex-1 flex flex-col min-h-0 relative">
         <Suspense
           fallback={
             <div className="flex items-center justify-center h-full">
