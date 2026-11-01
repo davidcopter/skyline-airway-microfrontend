@@ -42,6 +42,17 @@ const CrewReportingApp = lazy(() =>
     })),
 );
 
+// Next.js remote (webpack Module Federation, `var` container) — plain React 18 component.
+const ReportAnalyticsApp = lazy(() =>
+  import("reportAnalytics/ReportAnalytics")
+    .then((module) => ({ default: module.default }))
+    .catch(() => ({
+      default: () => (
+        <div className="p-8">Report Analytics Module Unavailable</div>
+      ),
+    })),
+);
+
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -99,6 +110,15 @@ const AppContent: React.FC = () => {
               element={
                 <ProtectedRoute>
                   <CrewReportingApp />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/analytics/*"
+              element={
+                <ProtectedRoute>
+                  <ReportAnalyticsApp />
                 </ProtectedRoute>
               }
             />

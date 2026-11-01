@@ -74,6 +74,7 @@ Recommended production release order:
    - `/fleet`
    - `/defects`
    - `/reporting`
+   - `/analytics`
 
 ## 3.5 Rollback strategy
 - Roll back shell by re-pointing env vars to prior remote versions or previous remote endpoints.
@@ -85,7 +86,7 @@ Recommended production release order:
 - Add Sentry/logging per microfrontend with shared trace/correlation IDs.
 - Pin shared dependency major versions across shell/remotes.
 - Define compatibility contract:
-  - exposed module names (`fleetHealth/App`, `defectManagement/mount`, `crewReporting/mount`)
+  - exposed module names (`fleetHealth/App`, `defectManagement/mount`, `crewReporting/mount`, `reportAnalytics/ReportAnalytics`)
   - mount API signatures for framework wrappers.
 - Define cache strategy:
   - immutable hashed assets
@@ -113,3 +114,22 @@ Recommended production release order:
 2. Configure hosting/CDN endpoints and map them to `VITE_*_REMOTE_URL` variables.
 3. Add CI pipelines for per-app build + deploy.
 4. Execute first staging rollout using remote-first sequencing.
+
+## 6) Next.js remote (report-analytics) — deployment notes
+
+Added as a 4th microfrontend to prove an SSR framework (Next.js 15) can live in this architecture.
+
+- Runtime shape: Next serves its own SSR pages on `:3002`, and exposes a **client-only federated
+  island** at `/mf/remoteEntry.js` (webpack container, `library.type: 'var'`).
+- Build produces two artifacts from one command (`next build && webpack --config mf/webpack.config.js`):
+  the SSR app (`.next`) and the federation bundle (`public/mf`).
+- Deployment difference vs the Vite remotes: it needs a **Node server** (`next start`) or a
+  platform with SSR support, not just static hosting. Two options:
+  1. Host the Next app (SSR) and serve `public/mf` from the same origin — simplest.
+  2. Split: static-host `public/mf` on the CDN and keep the SSR pages on a Node runtime.
+- Shell points to it via `VITE_REPORT_ANALYTICS_REMOTE_URL`, so promotion across environments
+  works exactly like the other remotes.
+- POC constraints (documented in `apps/report-analytics/README.md`): the federated component is
+  hooks-free (each side carries its own React copy), styles are inline, and `remoteEntry.js` has
+  no cache busting beyond the host's env var — treat it like the other remotes when rolling back.
+- `public/mf` is generated output: add it to the deploy artifact, never commit it.
