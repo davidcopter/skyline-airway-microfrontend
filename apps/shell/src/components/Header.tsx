@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Plane, LayoutDashboard, AlertTriangle, ClipboardList, LogOut, Bell, User as UserIcon, Menu, X } from 'lucide-react';
+import { Plane, LayoutDashboard, AlertTriangle, ClipboardList, LogOut, Bell, User as UserIcon, Menu, X, BarChart3 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -25,6 +25,7 @@ const Header: React.FC = () => {
     { name: 'Fleet Health', path: '/fleet', icon: Plane },
     { name: 'Defects', path: '/defects', icon: AlertTriangle },
     { name: 'Reporting', path: '/reporting', icon: ClipboardList },
+    { name: 'Analytics', path: '/analytics', icon: BarChart3 },
   ];
 
   const isItemActive = (path: string) => {

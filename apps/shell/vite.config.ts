@@ -13,6 +13,10 @@ export default defineConfig(({ mode }) => {
     'http://localhost:5002/assets/remoteEntry.js';
   const crewReportingRemote =
     env.VITE_CREW_REPORTING_REMOTE_URL ?? 'http://localhost:5003/assets/remoteEntry.js';
+  // Next.js remote: built by Next's webpack, so it exposes a classic-script (var) container.
+  const reportAnalyticsRemote =
+    env.VITE_REPORT_ANALYTICS_REMOTE_URL ??
+    'http://localhost:3002/mf/remoteEntry.js';
 
   return {
     plugins: [
@@ -23,6 +27,11 @@ export default defineConfig(({ mode }) => {
           fleetHealth: fleetHealthRemote,
           defectManagement: defectManagementRemote,
           crewReporting: crewReportingRemote,
+          reportAnalytics: {
+            external: reportAnalyticsRemote,
+            format: 'var',
+            from: 'webpack',
+          },
         },
         shared: ['react', 'react-dom', 'react-router-dom'],
       }),
